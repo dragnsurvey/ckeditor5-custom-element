@@ -7,7 +7,7 @@ export class CustomElemCommand extends Command {
 
     constructor( editor, tagName, placeholder, inline, attributes ) {
         super( editor );
-        
+
         this.tagName     = tagName;
         this.placeholder = placeholder;
         this.attributes  = attributes;
@@ -15,13 +15,13 @@ export class CustomElemCommand extends Command {
     };
 
 
-	execute(  ) {
+	execute( options = {attributes : {name :"calculator"}, placeholder: "@calculator"} ) {
         const model = this.editor.model;
 
 		model.change( writer => {
-			
-            const elem = writer.createElement( this.tagName, this.attributes );
-            writer.appendText(this.placeholder, elem);
+
+            const elem = writer.createElement( this.tagName, options.attributes );
+            writer.appendText(options.placeholder, elem);
             // const insertAtSelection = this.inline? model.document.selection.getFirstPosition()
             //                                      : findOptimalInsertionPosition( model.document.selection, model );
 

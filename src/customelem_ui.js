@@ -12,7 +12,7 @@ export default class CustomElemUI extends Plugin {
 		const editor 		= this.editor;
 		const items      	= editor.config.get(( 'CustomElement.items' ))
 
-		
+
 		for (let i=0; i<items.length; i++){
 			const tag  		= items[i].tag;
 			const text 		= this._safeGet(items[i].placeholder, tag);
@@ -30,7 +30,7 @@ export default class CustomElemUI extends Plugin {
 					allowAttributes: attrkeys,
 					isObject: true,
 					isBlock:  true,
-				}); 	
+				});
 			}
 			else{
 				editor.model.schema.register(tag, {
@@ -38,10 +38,10 @@ export default class CustomElemUI extends Plugin {
 					allowAttributes: attrkeys,
 					isObject: true,
 					isBlock:  true,
-				}); 	
+				});
 			}
-			
-			
+
+
 			editor.model.schema.extend( '$text', {
 				allowIn: tag
 			} );
@@ -53,17 +53,17 @@ export default class CustomElemUI extends Plugin {
 					( {
 						model: tag,
 						view: ( modelItem, viewWriter ) => {
-								const widgetElement = viewWriter.createContainerElement( tag );
-								return toWidgetEditable( widgetElement, viewWriter );
-							}
+							const widgetElement = viewWriter.createContainerElement( tag );
+							return toWidgetEditable( widgetElement, viewWriter );
+						}
 					} )
-				:
+					:
 					( {
 						model: tag,
 						view: ( modelItem, viewWriter ) => {
-								const widgetElement = viewWriter.createContainerElement( tag );
-								return toWidget( widgetElement, viewWriter );
-							}
+							const widgetElement = viewWriter.createContainerElement( tag );
+							return toWidget( widgetElement, viewWriter );
+						}
 					} )
 			);
 			editor.conversion.for( 'dataDowncast' ).elementToElement(
@@ -71,7 +71,7 @@ export default class CustomElemUI extends Plugin {
 					model: tag,
 					view: tag
 				} )
-			);	
+			);
 			editor.conversion.for( 'upcast' ).elementToElement(
 				( {
 					view: tag,
@@ -91,7 +91,7 @@ export default class CustomElemUI extends Plugin {
 					converterPriority: 'low'
 				} );
 			}
-			
+
 
 			//---command
 			const com =  'custom-element-'+tag;
@@ -99,12 +99,12 @@ export default class CustomElemUI extends Plugin {
 
 			//---toolbar
 			this._createToolbarButton(com, icon);
-			
-		}		
-		
+
+		}
+
 	}
 
-	
+
 	_createToolbarButton(name, tbicon) {
 		const editor = this.editor;
 
@@ -115,7 +115,7 @@ export default class CustomElemUI extends Plugin {
 
 			button.isEnabled = true;
 			button.isOn      = true;
-			button.label     = name;
+			button.label     = "calculator";
 			button.tooltip   = true;
 			button.icon		 = tbicon;
 
