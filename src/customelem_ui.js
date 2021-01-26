@@ -48,7 +48,7 @@ export default class CustomElemUI extends Plugin {
 				 {
 						model: tag,
 						 view: ( modelItem, { writer: viewWriter } ) => {
-							 const widgetElement = createPlaceholderView( modelItem, viewWriter, tag, attr.placeholder );
+							 const widgetElement = createPlaceholderView( modelItem, viewWriter, tag, text );
 
 							 // Enable widget handling on a placeholder element inside the editing view.
 							 return toWidget( widgetElement, viewWriter );
@@ -58,7 +58,7 @@ export default class CustomElemUI extends Plugin {
 			editor.conversion.for( 'dataDowncast' ).elementToElement(
 				( {
 					model: tag,
-					view: ( modelItem, { writer: viewWriter } ) => createPlaceholderView( modelItem, viewWriter, tag, attr.placeholder )
+					view: tag
 				} )
 			);
 			editor.conversion.for( 'upcast' ).elementToElement(
