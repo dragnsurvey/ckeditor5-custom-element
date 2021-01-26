@@ -55,7 +55,7 @@ export default class CustomElemUI extends Plugin {
 						view: ( modelItem, conversionApi ) => {
 							console.log('conversionApi');
 							console.log(conversionApi);
-							const { viewWriter } = conversionApi;
+							const  viewWriter  = conversionApi.writer;
 							console.log('viewWriter');
 							console.log(viewWriter);
 							const widgetElement = viewWriter.createContainerElement( tag );
@@ -68,7 +68,7 @@ export default class CustomElemUI extends Plugin {
 						view: ( modelItem, conversionApi ) => {
 							console.log('conversionApi');
 							console.log(conversionApi);
-							const { viewWriter } = conversionApi;
+							const  viewWriter  = conversionApi.writer;
 							console.log('viewWriter');
 							console.log(viewWriter);
 							const widgetElement = viewWriter.createContainerElement( tag );
