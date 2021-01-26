@@ -26,6 +26,7 @@ export default class CustomElemUI extends Plugin {
 					allowWhere: '$text',
 					allowAttributes: attrkeys,
 					isObject: true,
+					isInline: true,
 				});
 			}
 			else{
@@ -88,7 +89,7 @@ export default class CustomElemUI extends Plugin {
 			//out of bound management
 			editor.editing.mapper.on(
 				'viewToModelPosition',
-				viewToModelPositionOutsideModelElement( editor.model, viewElement => viewElement.hasClass( 'placeholder' ) )
+				viewToModelPositionOutsideModelElement( editor.model, viewElement => viewElement.is( 'dns-element' ) )
 			);
 		}
 
