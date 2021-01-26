@@ -25,13 +25,11 @@ export class CustomElemCommand extends Command {
             // const insertAtSelection = this.inline? model.document.selection.getFirstPosition()
             //                                      : findOptimalInsertionPosition( model.document.selection, model );
 
-            const insertAtSelection = model.document.selection.getFirstPosition();
-            //model.insertContent( elem, insertAtSelection );
-            model.insertContent( elem );
+            this.editor.model.insertContent( elem );
 
-            //if ( elem.parent ) {
-                writer.setSelection( elem, 'on' );
-            //}
+
+            writer.setSelection( elem, 'on' );
+
         });
     };
 }

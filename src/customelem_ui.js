@@ -17,9 +17,8 @@ export default class CustomElemUI extends Plugin {
 			const tag  		= items[i].tag;
 			const text 		= this._safeGet(items[i].placeholder, tag);
 			const attr 		= this._safeGet(items[i].attributes, {});
-			const inline	= this._safeGet(items[i].inline, false);
+			const inline	= this._safeGet(items[i].inline, true);
 			const editable	= this._safeGet(items[i].editable, false);
-			let   icon	 	= this._safeGet(items[i].icon, defaultIcon);
 
 			const attrkeys = Object.keys(attr);
 
@@ -29,7 +28,6 @@ export default class CustomElemUI extends Plugin {
 					allowWhere: '$text',
 					allowAttributes: attrkeys,
 					isObject: true,
-					isBlock:  true,
 				});
 			}
 			else{
@@ -37,7 +35,6 @@ export default class CustomElemUI extends Plugin {
 					allowIn: '$root',
 					allowAttributes: attrkeys,
 					isObject: true,
-					isBlock:  true,
 				});
 			}
 
@@ -49,29 +46,20 @@ export default class CustomElemUI extends Plugin {
 
 			//---conversion
 			editor.conversion.for( 'editingDowncast' ).elementToElement(
-				editable?
-					( {
+				 {
 						model: tag,
-						view: ( modelItem, conversionApi ) => {
-							const  viewWriter  = conversionApi.writer;
-							const widgetElement = viewWriter.createContainerElement( tag );
-							return toWidgetEditable( widgetElement, viewWriter );
-						}
-					} )
-					:
-					( {
-						model: tag,
-						view: ( modelItem, conversionApi ) => {
-							const  viewWriter  = conversionApi.writer;
-							const widgetElement = viewWriter.createContainerElement( tag );
-							return toWidget( widgetElement, viewWriter );
-						}
-					} )
+						 view: ( modelItem, { writer: viewWriter } ) => {
+							 const widgetElement = createPlaceholderView( modelItem, viewWriter, tag, attr.placeholder );
+
+							 // Enable widget handling on a placeholder element inside the editing view.
+							 return toWidget( widgetElement, viewWriter );
+						 }
+					}
 			);
 			editor.conversion.for( 'dataDowncast' ).elementToElement(
 				( {
 					model: tag,
-					view: tag
+					view: ( modelItem, { writer: viewWriter } ) => createPlaceholderView( modelItem, viewWriter, tag, attr.placeholder )
 				} )
 			);
 			editor.conversion.for( 'upcast' ).elementToElement(
@@ -99,34 +87,21 @@ export default class CustomElemUI extends Plugin {
 			const com =  'custom-element-'+tag;
 			editor.commands.add( com, new CustomElemCommand( editor, tag, text, inline, attr  ) );
 
-			//---toolbar
-			this._createToolbarButton(com, icon);
-
 		}
 
+		// Helper method for both downcast converters.
+		function createPlaceholderView( modelItem, viewWriter, tag, placeholder ) {
+
+			const placeholderView = viewWriter.createContainerElement( tag );
+
+			// Insert the placeholder name (as a text).
+			const innerText = viewWriter.createText( '@'+placeholder );
+			viewWriter.insert( viewWriter.createPositionAt( placeholderView, 0 ), innerText );
+
+			return placeholderView;
+		}
 	}
 
-
-	_createToolbarButton(name, tbicon) {
-		const editor = this.editor;
-
-		editor.ui.componentFactory.add( name, locale => {
-			const button = new ButtonView( locale );
-			const command = editor.commands.get( name );
-
-
-			button.isEnabled = true;
-			button.isOn      = true;
-			button.label     = "calculator";
-			button.tooltip   = true;
-			button.icon		 = tbicon;
-
-			button.bind( 'isOn', 'isEnabled' ).to( command, 'value', 'isEnabled' );
-			this.listenTo( button, 'execute', () => editor.execute( name ) );
-
-			return button;
-		} );
-	}
 
 
 	_safeGet(input, safeDefault){
