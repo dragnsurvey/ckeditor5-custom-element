@@ -21,8 +21,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dragnsurvey/ckeditor5-custom-element"
+    "url": "git+https://github.com/centaur54dev/ckeditor5-custom-element"
   },
-  "author": "tipo94",
+  "author": "centaur54dev",
   "license": "MIT"
 }
