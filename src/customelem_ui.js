@@ -52,7 +52,8 @@ export default class CustomElemUI extends Plugin {
 				editable?
 					( {
 						model: tag,
-						view: ( modelItem, viewWriter ) => {
+						view: ( modelItem, conversionApi ) => {
+							const { viewWriter } = conversionApi;
 							const widgetElement = viewWriter.createContainerElement( tag );
 							return toWidgetEditable( widgetElement, viewWriter );
 						}
@@ -60,7 +61,8 @@ export default class CustomElemUI extends Plugin {
 					:
 					( {
 						model: tag,
-						view: ( modelItem, viewWriter ) => {
+						view: ( modelItem, conversionApi ) => {
+							const { viewWriter } = conversionApi;
 							const widgetElement = viewWriter.createContainerElement( tag );
 							return toWidget( widgetElement, viewWriter );
 						}
