@@ -21,12 +21,12 @@ export class CustomElemCommand extends Command {
 		model.change( writer => {
 
             const elem = writer.createElement( this.tagName, options.attributes );
-            //writer.appendText(options.placeholder, elem);
+            writer.appendText(options.placeholder, elem);
             // const insertAtSelection = this.inline? model.document.selection.getFirstPosition()
             //                                      : findOptimalInsertionPosition( model.document.selection, model );
 
             const insertAtSelection = model.document.selection.getFirstPosition();
-            model.insertContent( elem, insertAtSelection );
+            model.insertContent( elem+' ', insertAtSelection );
 
             if ( elem.parent ) {
                 writer.setSelection( elem, 'on' );
