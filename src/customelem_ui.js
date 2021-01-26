@@ -1,8 +1,6 @@
 import Plugin 				from '@ckeditor/ckeditor5-core/src/plugin';
-import ButtonView 			from '@ckeditor/ckeditor5-ui/src/button/buttonview';
-import { toWidget, toWidgetEditable } 				from '@ckeditor/ckeditor5-widget/src/utils';
+import { toWidget, viewToModelPositionOutsideModelElement } 				from '@ckeditor/ckeditor5-widget/src/utils';
 import {CustomElemCommand}  from './customelem_command';
-import defaultIcon 			from '../theme/icons/default.svg';
 
 
 export default class CustomElemUI extends Plugin {
@@ -87,6 +85,11 @@ export default class CustomElemUI extends Plugin {
 			const com =  'custom-element-'+tag;
 			editor.commands.add( com, new CustomElemCommand( editor, tag, text, inline, attr  ) );
 
+			//out of bound management
+			editor.editing.mapper.on(
+				'viewToModelPosition',
+				viewToModelPositionOutsideModelElement( editor.model, viewElement => viewElement.hasClass( 'placeholder' ) )
+			);
 		}
 
 		// Helper method for both downcast converters.
