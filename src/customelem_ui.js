@@ -53,7 +53,11 @@ export default class CustomElemUI extends Plugin {
 					( {
 						model: tag,
 						view: ( modelItem, conversionApi ) => {
+							console.log('conversionApi');
+							console.log(conversionApi);
 							const { viewWriter } = conversionApi;
+							console.log('viewWriter');
+							console.log(viewWriter);
 							const widgetElement = viewWriter.createContainerElement( tag );
 							return toWidgetEditable( widgetElement, viewWriter );
 						}
@@ -62,7 +66,11 @@ export default class CustomElemUI extends Plugin {
 					( {
 						model: tag,
 						view: ( modelItem, conversionApi ) => {
+							console.log('conversionApi');
+							console.log(conversionApi);
 							const { viewWriter } = conversionApi;
+							console.log('viewWriter');
+							console.log(viewWriter);
 							const widgetElement = viewWriter.createContainerElement( tag );
 							return toWidget( widgetElement, viewWriter );
 						}
