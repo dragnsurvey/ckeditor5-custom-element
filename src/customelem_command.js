@@ -26,7 +26,7 @@ export class CustomElemCommand extends Command {
             //                                      : findOptimalInsertionPosition( model.document.selection, model );
 
             const insertAtSelection = model.document.selection.getFirstPosition();
-            model.insertContent( elem+' ', insertAtSelection );
+            model.insertContent( elem, insertAtSelection );
 
             if ( elem.parent ) {
                 writer.setSelection( elem, 'on' );
