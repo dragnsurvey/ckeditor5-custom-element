@@ -48,7 +48,9 @@ export default class CustomElemUI extends Plugin {
 				 {
 						model: tag,
 						 view: ( modelItem, { writer: viewWriter } ) => {
-							 const widgetElement = createPlaceholderView( modelItem, viewWriter, tag, text );
+							console.log(tag);
+							console.log(text);
+							 const widgetElement = this._createPlaceholderView( modelItem, viewWriter, tag, text );
 
 							 // Enable widget handling on a placeholder element inside the editing view.
 							 return toWidget( widgetElement, viewWriter );
@@ -58,13 +60,15 @@ export default class CustomElemUI extends Plugin {
 			editor.conversion.for( 'dataDowncast' ).elementToElement(
 				( {
 					model: tag,
-					view: tag
+					view: ( modelItem, { writer: viewWriter } ) => this._createPlaceholderView( modelItem, viewWriter, tag, text )
 				} )
 			);
 			editor.conversion.for( 'upcast' ).elementToElement(
 				( {
 					view: tag,
-					model: tag
+					model: ( viewElement, { writer: modelWriter } ) => {
+						return modelWriter.createElement( tag, attr );
+					}
 				} )
 			);
 			//attribute conversion
@@ -93,21 +97,21 @@ export default class CustomElemUI extends Plugin {
 			);
 		}
 
-		// Helper method for both downcast converters.
-		function createPlaceholderView( modelItem, viewWriter, tag, placeholder ) {
 
-			const placeholderView = viewWriter.createContainerElement( tag );
-
-			// Insert the placeholder name (as a text).
-			const innerText = viewWriter.createText( '@'+placeholder );
-			viewWriter.insert( viewWriter.createPositionAt( placeholderView, 0 ), innerText );
-
-			return placeholderView;
-		}
 	}
 
 
+	// Helper method for both downcast converters.
+	_createPlaceholderView( modelItem, viewWriter, tag, placeholder ) {
 
+		const placeholderView = viewWriter.createContainerElement( tag );
+
+		// Insert the placeholder name (as a text).
+		const innerText = viewWriter.createText( placeholder );
+		viewWriter.insert( viewWriter.createPositionAt( placeholderView, 0 ), innerText );
+
+		return placeholderView;
+	}
 	_safeGet(input, safeDefault){
 		if( typeof input !== 'undefined' &&  (input || input===false || input===0) ){
 			return input;
