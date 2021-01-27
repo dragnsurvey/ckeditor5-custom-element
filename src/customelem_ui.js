@@ -24,7 +24,7 @@ export default class CustomElemUI extends Plugin {
 			if (inline){
 				editor.model.schema.register(tag, {
 					allowWhere: '$text',
-					allowAttributes: attrkeys,
+					allowAttributes: ['name', 'answer_id'],
 					isObject: true,
 					isInline: true,
 				});
@@ -32,7 +32,7 @@ export default class CustomElemUI extends Plugin {
 			else{
 				editor.model.schema.register(tag, {
 					allowIn: '$root',
-					allowAttributes: attrkeys,
+					allowAttributes: ['name', 'answer_id'],
 					isObject: true,
 				});
 			}
