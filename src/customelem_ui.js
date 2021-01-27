@@ -49,7 +49,7 @@ export default class CustomElemUI extends Plugin {
 					model: tag,
 					view: ( modelItem, conversionApi ) => {
 						const  viewWriter  = conversionApi.writer;
-						const widgetElement = viewWriter.createContainerElement( tag );
+						const widgetElement = viewWriter.createContainerElement( tag, attr );
 						return toWidget( widgetElement, viewWriter );
 					}
 				} )
