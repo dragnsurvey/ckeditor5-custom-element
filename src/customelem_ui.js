@@ -45,30 +45,25 @@ export default class CustomElemUI extends Plugin {
 
 			//---conversion
 			editor.conversion.for( 'editingDowncast' ).elementToElement(
-				 {
-						model: tag,
-						 view: ( modelItem, { writer: viewWriter } ) => {
-							console.log(tag);
-							console.log(text);
-							 const widgetElement = this._createPlaceholderView( modelItem, viewWriter, tag, text );
-
-							 // Enable widget handling on a placeholder element inside the editing view.
-							 return toWidget( widgetElement, viewWriter );
-						 }
+				( {
+					model: tag,
+					view: ( modelItem, conversionApi ) => {
+						const  viewWriter  = conversionApi.writer;
+						const widgetElement = viewWriter.createContainerElement( tag );
+						return toWidget( widgetElement, viewWriter );
 					}
+				} )
 			);
 			editor.conversion.for( 'dataDowncast' ).elementToElement(
 				( {
 					model: tag,
-					view: ( modelItem, { writer: viewWriter } ) => this._createPlaceholderView( modelItem, viewWriter, tag, text )
+					view: tag
 				} )
 			);
 			editor.conversion.for( 'upcast' ).elementToElement(
 				( {
-					view: tag,
-					model: ( viewElement, { writer: modelWriter } ) => {
-						return modelWriter.createElement( tag, attr );
-					}
+					model: tag,
+					view: tag
 				} )
 			);
 			//attribute conversion
@@ -101,17 +96,6 @@ export default class CustomElemUI extends Plugin {
 	}
 
 
-	// Helper method for both downcast converters.
-	_createPlaceholderView( modelItem, viewWriter, tag, placeholder ) {
-
-		const placeholderView = viewWriter.createContainerElement( tag );
-
-		// Insert the placeholder name (as a text).
-		const innerText = viewWriter.createText( placeholder );
-		viewWriter.insert( viewWriter.createPositionAt( placeholderView, 0 ), innerText );
-
-		return placeholderView;
-	}
 	_safeGet(input, safeDefault){
 		if( typeof input !== 'undefined' &&  (input || input===false || input===0) ){
 			return input;

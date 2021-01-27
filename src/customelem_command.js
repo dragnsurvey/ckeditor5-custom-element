@@ -23,7 +23,7 @@ export class CustomElemCommand extends Command {
             const elem = writer.createElement( this.tagName, options.attributes );
             // const insertAtSelection = this.inline? model.document.selection.getFirstPosition()
             //                                      : findOptimalInsertionPosition( model.document.selection, model );
-
+            writer.appendText(options.placeholder, elem);
             this.editor.model.insertContent( elem );
 
 
